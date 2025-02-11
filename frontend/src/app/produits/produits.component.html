@@ -1,0 +1,78 @@
+<app-navbar class="app-navbar"></app-navbar>
+
+<div class="container mt-5">
+  <div class="card mb-3">
+    <div class="card-header">
+      <h3>Créer un nouveau produit</h3>
+    </div>
+    <div class="card-body">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <form (ngSubmit)="produitToEdit ? updateProduit() : addProduit()">
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom du Produit</label>
+          <input
+            type="text" id="nom" class="form-control" [(ngModel)]="nom"
+            [ngClass]="{'is-invalid' : submitted && !nom}"  name="nomProduit"
+            placeholder="Entrez le nom du produit"
+            required
+          />
+          <div *ngIf="submitted && !nom" class="invalid-feedback">
+            Le nom du produit est obligatoire
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          {{ produitToEdit ? 'Mettre à jour Produit' : 'Ajouter Produit' }}
+        </button>
+        <button
+          type="button" class="btn btn-secondary" *ngIf="produitToEdit" (click)="resetForm()">Annuler
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mb-3 mt-3">
+    <div class="card-header">
+      <h3>Liste des produits</h3>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom Produit</th>
+          <th>Créé Par</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let produit of produits | paginate: {itemsPerPage: itemsPerPage , currentPage:page}">
+          <td>{{ produit.id }}</td>
+          <td>{{ produit.nom }}</td>
+          <td>{{ produit.created_by }}</td>
+          <td>
+            <button (click)="editProduit(produit)" class="btn btn-info" style="margin-right: 10px;">modifier</button>
+            <button (click)="deleteProduit(produit.id)" class="btn btn-danger" style="margin-right: 10px;">supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center mt-2">
+        <ul class="pagination pagination-sm">
+          <li class="page-item" [ngClass]="{ 'disabled': page === 1 }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageProduits('previous')">&laquo;</span>
+          </li>
+          <li *ngFor="let p of paginateProduits" class="page-item" [ngClass]="{ 'active': p === page }">
+            <span class="page-link" (click)="$event.preventDefault(); setPageProduits(p)">{{ p }}</span>
+          </li>
+          <li class="page-item" [ngClass]="{ 'disabled': page === paginateProduits.length }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageProduits('next')">&raquo;</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

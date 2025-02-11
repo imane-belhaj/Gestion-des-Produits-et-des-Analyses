@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/home">Gestion des Produits et des Analyses</a>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/produits">Produits</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/analyses">Analyses</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- User Dropdown -->
+    <li class="nav-item dropdown" *ngIf="user">
+      <a class="nav-link dropdown-toggle text-light"  data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        {{ user.firstname }} {{ user.lastname }}
+      </a>
+      <div class="dropdown-menu dropdown-menu-end">
+        <a class="dropdown-item" routerLink="/profile">Modifier Profil</a>
+        <a class="dropdown-item" (click)="logout()">Déconnexion</a>
+
+      </div>
+    </li>
+
+  </div>
+</nav>

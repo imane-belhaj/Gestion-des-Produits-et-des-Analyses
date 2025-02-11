@@ -1,0 +1,95 @@
+<app-navbar class="app-navbar"></app-navbar>
+<div class="container mt-3">
+
+  <!-- Liste produits -->
+  <div class="card shadow-sm p-2 mb-3">
+    <div class="card-body">
+      <h5 class="card-title text-center mb-3">Liste de tous les  Produits</h5>
+      <div *ngIf="isLoadingProduits" class="text-center">
+        <p>Loading...</p>
+      </div>
+      <table class="table table-sm table-striped" *ngIf="!isLoadingProduits">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom du Produit</th>
+          <th>Créé par</th>
+          <th>Date de Création</th>
+          <th>Date de Modification</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let produit of produits | paginate: { itemsPerPage: 4, currentPage: pageProduits }">
+          <td>{{ produit.id }}</td>
+          <td>{{ produit.nom }}</td>
+          <td>{{ produit.created_by }}</td>
+          <td>{{ produit.date_creation | date: 'short' }}</td>
+          <td>{{ produit.date_modification | date: 'short' }}</td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center mt-2">
+        <ul class="pagination pagination-sm">
+          <li class="page-item" [ngClass]="{ 'disabled': pageProduits === 1 }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageProduits('previous')">&laquo;</span>
+          </li>
+          <li *ngFor="let page of paginateProduits" class="page-item" [ngClass]="{ 'active': page === pageProduits }">
+            <span class="page-link" (click)="$event.preventDefault(); setPageProduits(page)">{{ page }}</span>
+          </li>
+          <li class="page-item" [ngClass]="{ 'disabled': pageProduits === paginateProduits.length }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageProduits('next')">&raquo;</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Liste Analyses -->
+  <div class="card shadow-sm p-2 mb-3 mt-3">
+    <div class="card-body">
+      <h5 class="card-title text-center mb-3">Liste de toutes Analyses</h5>
+      <div *ngIf="isLoadingAnalyses" class="text-center">
+        <p>Loading...</p>
+      </div>
+      <table class="table table-sm table-striped" *ngIf="!isLoadingAnalyses">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom de l'Analyse</th>
+          <th>Créé par</th>
+          <th>Valeur Max</th>
+          <th>Valeur Min</th>
+          <th>Date de Création</th>
+          <th>Date de Modification</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let analyse of analyses | paginate: { itemsPerPage: 4, currentPage: pageAnalyses }">
+          <td>{{ analyse.id }}</td>
+          <td>{{ analyse.nom_analyse }}</td>
+          <td>{{ analyse.created_by }} </td>
+          <td>{{ analyse.valeur_max }}</td>
+          <td>{{ analyse.valeur_min }}</td>
+          <td>{{ analyse.date_creation | date: 'short' }}</td>
+          <td>{{ analyse.date_modification | date: 'short' }}</td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center mt-2">
+        <ul class="pagination pagination-sm">
+          <li class="page-item" [ngClass]="{ 'disabled': pageAnalyses === 1 }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageAnalyses('previous')">&laquo;</span>
+          </li>
+          <li *ngFor="let page of paginateAnalyses" class="page-item" [ngClass]="{ 'active': page === pageAnalyses }">
+            <span class="page-link" (click)="$event.preventDefault(); setPageAnalyses(page)">{{ page }}</span>
+          </li>
+          <li class="page-item" [ngClass]="{ 'disabled': pageAnalyses === paginateAnalyses.length }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageAnalyses('next')">&raquo;</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
