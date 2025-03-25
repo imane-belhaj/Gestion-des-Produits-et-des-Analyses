@@ -27,7 +27,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, userData)
       .pipe(
         tap(response => {
-          // Now TypeScript knows that response has a 'token' property
+
           if (response && response.token) {
             localStorage.setItem('token', response.token); // Save token to localStorage
             localStorage.setItem('user', JSON.stringify(response.user));
@@ -60,20 +60,4 @@ export class AuthService {
   isLoggedIn() {
     return !!localStorage.getItem('token');
   }
-  // Store the token after successful login
-  /*saveToken(token: string): void {
-    localStorage.setItem('token', token); // Or use sessionStorage if you prefer
-  }*/
-
-  // Get the stored token from localStorage
-
-  // Remove the token (for logout functionality)
-  /*removeToken(): void {
-    localStorage.removeItem('token'); // Or sessionStorage.removeItem('token')
-  }*/
-
-
-
-
-
 }

@@ -5,10 +5,10 @@ const produitController = {
     getAllProduits: async (req, res) => {
         try {
             const produits = await Produit.findAll({
-                where: { user_id: req.user.userId }, // Make sure you're filtering by user
+                where: { user_id: req.user.userId },
                 include: [{
-                    model: User,  // Include the User model
-                    attributes: ['firstname', 'lastname'],  // Include the necessary fields (firstname and lastname)
+                    model: User,
+                    attributes: ['firstname', 'lastname'],
                 }]
             });
 
@@ -18,11 +18,10 @@ const produitController = {
                 nom: produit.nom,
                 date_creation: produit.date_creation,
                 date_modification: produit.date_modification,
-                // Add "crée par" field
-                created_by: `${produit.User.firstname} ${produit.User.lastname}`,  // Access associated User data correctly
+                created_by: `${produit.User.firstname} ${produit.User.lastname}`,
             }));
 
-            res.json(result);  // Use the mapped result
+            res.json(result);
         } catch (err) {
             console.error("Database query error:", err);
             res.status(500).json({ error: 'Database query failed', details: err });

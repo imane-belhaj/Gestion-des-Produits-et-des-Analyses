@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" style="margin: 10px;">
           {{ produitToEdit ? 'Mettre à jour Produit' : 'Ajouter Produit' }}
         </button>
         <button
@@ -55,7 +55,7 @@
           <td>{{ produit.created_by }}</td>
           <td>
             <button (click)="editProduit(produit)" class="btn btn-info" style="margin-right: 10px;">modifier</button>
-            <button (click)="deleteProduit(produit.id)" class="btn btn-danger" style="margin-right: 10px;">supprimer</button>
+            <button (click)="deleteProduit(produit.id)" class="btn btn-danger">supprimer</button>
           </td>
         </tr>
         </tbody>

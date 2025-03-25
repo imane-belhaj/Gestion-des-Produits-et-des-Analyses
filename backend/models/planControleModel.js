@@ -1,18 +1,26 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbConfig');
+const Produit = require('./produitModel');
 const User = require('./user');
 
-const Produit = sequelize.define('Produit', {
-    id: {
+const PlanControle = sequelize.define('PlanControle', {
+    plan_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
-        allowNull: false,
+        primaryKey: true,
     },
     nom: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+    },
+    produit_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Produit,
+            key: 'id',
+        },
+        onDelete: 'CASCADE',
     },
     user_id: {
         type: DataTypes.INTEGER,
@@ -35,9 +43,10 @@ const Produit = sequelize.define('Produit', {
         defaultValue: true,
     }
 }, {
+    tableName: 'plancontroles',
     timestamps: true,
     createdAt: 'date_creation',
     updatedAt: 'date_modification',
 });
 
-module.exports = Produit;
+module.exports = PlanControle;

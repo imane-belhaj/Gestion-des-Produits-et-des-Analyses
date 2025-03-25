@@ -1,0 +1,13 @@
+/* login.component.css */
+.alert {
+  margin-top: 10px;
+}
+
+.spinner-border {
+  margin-right: 5px;
+}
+
+button[disabled] {
+  background-color: #ccc;
+  border-color: #ccc;
+}

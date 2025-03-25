@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
       (data) => {
         this.produits = data;
         this.isLoadingProduits = false;
-        this.calculatePages(this.produits.length, 'produits');
+        this.calculatePages(this.produits.length, 'produits',5);
       },
       (error) => {
         console.error('Error fetching produits', error);
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
       (data: any[]) => {
         this.analyses = data;
         this.isLoadingAnalyses = false;
-        this.calculatePages(this.analyses.length, 'analyses');
+        this.calculatePages(this.analyses.length, 'analyses',5);
       },
       (error) => {
         console.error('Error fetching analyses', error);
@@ -71,8 +71,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  calculatePages(itemCount: number, type: string): void {
-    const itemsPerPage = 5;
+  calculatePages(itemCount: number, type: string, itemsPerPage: number): void {
     const totalPages = Math.ceil(itemCount / itemsPerPage);
 
     if (type === 'produits') {

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/dbConfig');
-const User = require('../models/user');
+const User = require('./user');
+const Unit = require('./unitModel');
 
 const Analyse = sequelize.define('Analyse', {
     id: {
@@ -27,17 +28,30 @@ const Analyse = sequelize.define('Analyse', {
     },
     date_modification: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        onUpdate: DataTypes.NOW,
     },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'userId',
+        },
+        onDelete: 'CASCADE',
+    },
+    unit_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Unit,
+            key: 'id',
+        }
+    },
+
 }, {
-    timestamps: false,
+    timestamps: true,
+    tableName:"analyses",
+    createdAt: 'date_creation',
+    updatedAt: 'date_modification',
 });
 
-Analyse.belongsTo(User, {
-    foreignKey: 'user_id',
-    onUpdate: 'CASCADE',
-});
-User.hasMany(Analyse, {
-    foreignKey: 'user_id' });
 module.exports = Analyse;

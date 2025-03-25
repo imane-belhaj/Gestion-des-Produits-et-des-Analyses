@@ -6,6 +6,8 @@ import {ProfileComponent} from "./profile/profile.component";
 import {HomeComponent} from "./home/home.component";
 import {ProduitsComponent} from './produits/produits.component';
 import {AnalysesComponent} from './analyses/analyses.component';
+import {LigneControleComponent} from './ligne-controle/ligne-controle.component';
+import {PlanControlesComponent} from './plan-controles/plan-controles.component'
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -15,6 +17,9 @@ const routes: Routes = [
   {path:'home', component:HomeComponent},
   {path:'produits' ,component:ProduitsComponent},
   {path:'analyses', component:AnalysesComponent},
+  {path:'login', component:LoginComponent},
+  {path:'lignes', component:LigneControleComponent},
+  {path:'plans',component:PlanControlesComponent},
 ];
 
 @NgModule({

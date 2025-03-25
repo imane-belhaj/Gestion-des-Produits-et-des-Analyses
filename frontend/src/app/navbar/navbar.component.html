@@ -13,10 +13,16 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/analyses">Analyses</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/plans">Plans de controle</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/lignes">Lignes de controle</a>
+        </li>
       </ul>
     </div>
 
-    <!-- User Dropdown -->
+
     <li class="nav-item dropdown" *ngIf="user">
       <a class="nav-link dropdown-toggle text-light"  data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
         {{ user.firstname }} {{ user.lastname }}

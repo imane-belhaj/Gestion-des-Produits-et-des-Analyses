@@ -1,7 +1,7 @@
 <app-navbar class="app-navbar"></app-navbar>
 <div class="container mt-3">
 
-  <!-- Liste produits -->
+
   <div class="card shadow-sm p-2 mb-3">
     <div class="card-body">
       <h5 class="card-title text-center mb-3">Liste de tous les  Produits</h5>
@@ -13,18 +13,18 @@
         <tr>
           <th>ID</th>
           <th>Nom du Produit</th>
-          <th>Créé par</th>
           <th>Date de Création</th>
           <th>Date de Modification</th>
+          <th>Créé par</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let produit of produits | paginate: { itemsPerPage: 4, currentPage: pageProduits }">
+        <tr *ngFor="let produit of produits | paginate: { itemsPerPage: 5, currentPage: pageProduits }">
           <td>{{ produit.id }}</td>
           <td>{{ produit.nom }}</td>
-          <td>{{ produit.created_by }}</td>
           <td>{{ produit.date_creation | date: 'short' }}</td>
           <td>{{ produit.date_modification | date: 'short' }}</td>
+          <td>{{ produit.created_by }}</td>
         </tr>
         </tbody>
       </table>
@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <!-- Liste Analyses -->
+
   <div class="card shadow-sm p-2 mb-3 mt-3">
     <div class="card-body">
       <h5 class="card-title text-center mb-3">Liste de toutes Analyses</h5>
@@ -57,22 +57,23 @@
         <tr>
           <th>ID</th>
           <th>Nom de l'Analyse</th>
-          <th>Créé par</th>
           <th>Valeur Max</th>
           <th>Valeur Min</th>
           <th>Date de Création</th>
           <th>Date de Modification</th>
+          <th>Créé par</th>
+
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let analyse of analyses | paginate: { itemsPerPage: 4, currentPage: pageAnalyses }">
+        <tr *ngFor="let analyse of analyses | paginate: { itemsPerPage: 5, currentPage: pageAnalyses }">
           <td>{{ analyse.id }}</td>
           <td>{{ analyse.nom_analyse }}</td>
-          <td>{{ analyse.created_by }} </td>
           <td>{{ analyse.valeur_max }}</td>
           <td>{{ analyse.valeur_min }}</td>
           <td>{{ analyse.date_creation | date: 'short' }}</td>
           <td>{{ analyse.date_modification | date: 'short' }}</td>
+          <td>{{ analyse.created_by }} </td>
         </tr>
         </tbody>
       </table>

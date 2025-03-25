@@ -27,19 +27,19 @@ export class RegisterComponent {
 
       this.authService.register(userData).subscribe(
         (response) => {
-          console.log('User registered successfully:', response);
+          console.log('Utilisateur inscrit avec succès:', response);
           this.router.navigate(['/login']).then(() => {
-            console.log('Navigation to login successfully');
+            console.log('Navigation vers la page de connexion réussie');
           }).catch(error => {
-            console.log('Navigation to login page failed:', error);
+            console.log('Échec de la navigation vers la page de connexion:', error);
           });
         },
         (error) => {
-          console.log('Error registering user:', error);
+          console.log('Erreur lors de l\'inscription de l\'utilisateur:', error);
         }
       );
     } else {
-      console.log('All fields are required!');
+      console.log('Tous les champs sont obligatoires!');
     }
   }
 }

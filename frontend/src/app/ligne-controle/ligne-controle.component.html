@@ -1,0 +1,91 @@
+<app-navbar class="app-navbar"></app-navbar>
+
+<div class="container mt-5">
+  <div class="card mb-3">
+    <div class="card-header">
+      <h3>Créer une nouvelle ligne de contrôle</h3>
+    </div>
+    <div class="card-body">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="ligneToEdit ? updateLigneControle() : addLigneControle()">
+
+        <div class="mb-3">
+          <label for="planControle" class="form-label">Sélectionner un Plan de Contrôle</label>
+          <select
+            id="planControle" class="form-control" [(ngModel)]="selectedPlanId"
+            name="planControle" required
+            [ngClass]="{'is-invalid' : submitted && !selectedPlanId}"
+          >
+            <option value="" disabled>Choisissez un plan</option>
+            <option *ngFor="let plan of plansControle" [value]="plan.plan_id">
+              {{ plan.nom }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom de la Ligne</label>
+          <input
+            type="text" id="nom" class="form-control" [(ngModel)]="nom"
+            [ngClass]="{'is-invalid' : submitted && !nom}"  name="nomLigne"
+            placeholder="Entrez le nom"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin: 10px;">
+          {{ ligneToEdit ? 'Mettre à jour Ligne' : 'Ajouter Ligne' }}
+        </button>
+        <button type="button" class="btn btn-secondary" *ngIf="ligneToEdit" (click)="resetForm()">Annuler</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mb-3 mt-3">
+    <div class="card-header">
+      <h3>Liste des Lignes de Contrôle</h3>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Plan associé </th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let ligne of lignesControle | paginate: {itemsPerPage: itemsPerPage , currentPage:page}">
+          <td>{{ ligne.ligne_id }}</td>
+          <td>{{ ligne.nom }}</td>
+          <td>{{ ligne.plan_nom }}</td>
+          <td>
+            <button (click)="editLigneControle(ligne)" class="btn btn-info " style="margin-right: 10px;">Modifier</button>
+            <button (click)="deleteLigneControle(ligne.ligne_id)" class="btn btn-danger">Supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-center mt-2">
+        <ul class="pagination pagination-sm">
+          <li class="page-item" [ngClass]="{ 'disabled': page === 1 }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageLignesControle('previous')">&laquo;</span>
+          </li>
+          <li *ngFor="let p of paginateLignesControle" class="page-item" [ngClass]="{ 'active': p === page }">
+            <span class="page-link" (click)="$event.preventDefault(); setPageLignesControle(p)">{{ p }}</span>
+          </li>
+          <li class="page-item" [ngClass]="{ 'disabled': page === paginateLignesControle.length }">
+            <span class="page-link" (click)="$event.preventDefault(); changePageLignesControle('next')">&raquo;</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -3,34 +3,33 @@
     <div class="col-md-6">
       <div class="card mt-5">
         <div class="card-header text-center">
-          <h3>Register</h3>
+          <h3>Inscription</h3>
         </div>
         <div class="card-body">
-          <form  (ngSubmit)="onRegister()"  #registerForm="ngForm">
+          <form (ngSubmit)="onRegister()" #registerForm="ngForm">
             <div class="mb-3">
-              <label for="firstname" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="firstname" [(ngModel)]="firstname" name="firstname" placeholder="Enter first name" required>
+              <label for="firstname" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="firstname" [(ngModel)]="firstname" name="firstname" placeholder="Entrez le prénom" required>
             </div>
 
             <div class="mb-3">
-              <label for="lastname" class="form-label">Last Name</label>
-              <input type="text" class="form-control" id="lastname"  [(ngModel)]="lastname" name="lastname" placeholder="Enter last name" required>
+              <label for="lastname" class="form-label">Nom de famille</label>
+              <input type="text" class="form-control" id="lastname" [(ngModel)]="lastname" name="lastname" placeholder="Entrez le nom de famille" required>
             </div>
 
             <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" [(ngModel)]="email"  name="email" placeholder="Enter email" required>
+              <label for="email" class="form-label">Adresse e-mail</label>
+              <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" placeholder="Entrez l'email" required>
             </div>
 
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" [(ngModel)]="password"  name="password" placeholder="Password" required>
+              <label for="password" class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" placeholder="Entrez le mot de passe" required>
             </div>
 
             <div class="d-flex justify-content-between">
-              <button type="submit" class="btn btn-primary">Register</button>
-              <a routerLink="/login" class="btn btn-link">Cancel</a>
-
+              <button type="submit" class="btn btn-primary">S'inscrire</button>
+              <a routerLink="/login" class="btn btn-link">Annuler</a>
             </div>
           </form>
         </div>
@@ -38,4 +37,3 @@
     </div>
   </div>
 </div>
-

@@ -1,0 +1,96 @@
+<app-navbar class="app-navbar"></app-navbar>
+
+<div class="container mt-5">
+  <div class="card mb-3">
+    <div class="card-header">
+      <h3>Créer un nouveau plan de contrôle</h3>
+    </div>
+    <div class="card-body">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+      <form (ngSubmit)="planControle ? updatePlanControle() : addPlanControle()">
+
+
+        <div class="mb-3">
+          <label for="produit" class="form-label">Sélectionner un Produit</label>
+          <select
+            id="produit" class="form-control" [(ngModel)]="selectedProduitId"
+            [ngClass]="{'is-invalid' : submitted && !selectedProduitId}" name="produitId"
+            required
+          >
+            <option value="" disabled>Choisir un produit</option>
+            <option *ngFor="let produit of produits" [value]="produit.id">
+              {{ produit.nom }}
+            </option>
+          </select>
+          <div *ngIf="submitted && !selectedProduitId" class="invalid-feedback">
+            Le produit est obligatoire
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="nom" class="form-label">Nom du Plan de Contrôle</label>
+          <input
+            type="text" id="nom" class="form-control" [(ngModel)]="nom"
+            [ngClass]="{'is-invalid' : submitted && !nom}" name="nomPlanControle"
+            placeholder="Entrez le nom du plan"
+            required
+          />
+          <div *ngIf="submitted && !nom" class="invalid-feedback">
+            Le nom du plan de contrôle est obligatoire
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="margin: 10px;">
+          {{ planControle ? 'Mettre à jour Plan' : 'Ajouter Plan' }}
+        </button>
+        <button
+          type="button" class="btn btn-secondary" *ngIf="planControle" (click)="resetForm()">Annuler
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mb-3 mt-3">
+    <div class="card-header">
+      <h3>Liste des plans de contrôle</h3>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom Plan de Contrôle</th>
+          <th>Produit associé</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let plan of plansControle | paginate: {itemsPerPage: itemsPerPage , currentPage: page}">
+          <td>{{ plan.plan_id }}</td>
+          <td>{{ plan.nom }}</td>
+          <td>{{ plan.produit_nom }}</td>
+          <td>
+            <button (click)="editPlanControle(plan)" class="btn btn-info" style="margin-right: 10px;">modifier</button>
+            <button (click)="deletePlanControle(plan.plan_id)" class="btn btn-danger" >supprimer</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-center mt-2">
+        <ul class="pagination pagination-sm">
+          <li class="page-item" [ngClass]="{ 'disabled': page === 1 }">
+            <span class="page-link" (click)="$event.preventDefault(); changePagePlansControle('previous')">&laquo;</span>
+          </li>
+          <li *ngFor="let p of paginatePlansControle" class="page-item" [ngClass]="{ 'active': p === page }">
+            <span class="page-link" (click)="$event.preventDefault(); setPagePlansControle(p)">{{ p }}</span>
+          </li>
+          <li class="page-item" [ngClass]="{ 'disabled': page === paginatePlansControle.length }">
+            <span class="page-link" (click)="$event.preventDefault(); changePagePlansControle('next')">&raquo;</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

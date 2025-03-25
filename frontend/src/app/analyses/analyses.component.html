@@ -6,9 +6,6 @@
       <h3>Créer une nouvelle analyse</h3>
     </div>
     <div class="card-body">
-      <div *ngIf="errorMessage" class="alert alert-danger">
-        {{ errorMessage }}
-      </div>
       <form (ngSubmit)="analyseToEdit ? updateAnalyse() : addAnalyse()">
         <div class="mb-3">
           <label for="nom_analyse" class="form-label">Nom de l'Analyse</label>
@@ -27,8 +24,8 @@
           <input type="number" class="form-control" id="valeur_max" name="valeur_max"
                  required placeholder="Enter la valeur maximale"
                  [(ngModel)]="valeur_max"
-                 [ngClass]="{'is-invalid' : submitted && !valeur_max}"
-          >
+                 [ngClass]="{'is-invalid' : submitted && !valeur_max}">
+
           <div *ngIf="submitted && !valeur_max" class="invalid-feedback">
             La valeur maximale est obligatoire
           </div>
@@ -39,17 +36,59 @@
           <input type="number" class="form-control" id="valeur_min" name="valeur_min"
                  required placeholder="Enter la valeur minimale"
                  [(ngModel)]="valeur_min"
-                 [ngClass]="{'is-invalid' : submitted && !valeur_min }"
-          >
+                 [ngClass]="{'is-invalid' : submitted && !valeur_min }">
+
           <div *ngIf="submitted && !valeur_min" class="text-danger">
             La valeur minimale est obligatoire
           </div>
         </div>
 
+        <div class="mb-3">
+          <label for="unit">Choisir une unité</label>
+          <select [(ngModel)]="selectedUnit" id="unit" name="unit" class="form-control">
+            <option value="">Sélectionner une unité</option>
+            <option *ngFor="let unit of units" [value]="unit.id">{{ unit.nom }} </option>
+          </select>
+          <button type="button" class="btn btn-link" (click)="openUnitModal()">Ajouter une nouvelle unité</button>
+        </div>
+
+        <div class="modal fade" id="unitModal" tabindex="-1" aria-labelledby="unitModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="unitModalLabel">Ajouter une unité</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+
+                <div class="mb-3">
+                  <label for="unitName" class="form-label">Nom de l'unité</label>
+                  <input type="text" class="form-control" id="unitName" [(ngModel)]="newUnitName" name="newUnitName" placeholder="Enter unit name" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="unitSymbol" class="form-label">Symbole de l'unité</label>
+                  <input type="text" class="form-control" id="unitSymbol" [(ngModel)]="newUnitSymbol" name="newUnitSymbol" placeholder="Enter unit symbol" />
+                </div>
+
+                <div *ngIf="unitNotFound" class="alert alert-warning mt-3">
+                  Unité non trouvée. Voulez-vous en ajouter une nouvelle ?
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeUnitModal()">Fermer</button>
+                <button type="button" class="btn btn-primary" (click)="saveUnit()">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
         <button type="submit" class="btn btn-primary" style="margin: 10px;">
           {{analyseToEdit ? 'Mettre à jour analyse' : 'Ajouter analyse'}}
         </button>
-        <button type="button" class="btn btn-secondary"  *ngIf="analyseToEdit" (click)="resetForm()">
+        <button type="button" class="btn btn-secondary" *ngIf="analyseToEdit" (click)="resetForm()">
           Annuler
         </button>
       </form>
@@ -67,19 +106,19 @@
         <tr>
           <th>ID</th>
           <th>Nom de l'Analyse</th>
-          <th>Créé Par</th>
           <th>Valeur Max</th>
           <th>Valeur Min</th>
+          <th>Créé Par</th>
           <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let analyse of analyses | paginate: {itemsPerPage: itemsPerPage , currentPage:page}">
+        <tr *ngFor="let analyse of analyses | paginate: {itemsPerPage: itemsPerPage, currentPage: page}">
           <td>{{ analyse.id }}</td>
           <td>{{ analyse.nom_analyse }}</td>
-          <td>{{ analyse.created_by }}</td>
           <td>{{ analyse.valeur_max }}</td>
           <td>{{ analyse.valeur_min }}</td>
+          <td>{{ analyse.created_by }}</td>
           <td>
             <button (click)="editAnalyse(analyse)" class="btn btn-info" style="margin-right: 10px;">modifier</button>
             <button (click)="deleteAnalyse(analyse.id)" class="btn btn-danger">supprimer</button>
@@ -87,6 +126,7 @@
         </tr>
         </tbody>
       </table>
+
       <div class="d-flex justify-content-center mt-2">
         <ul class="pagination pagination-sm">
           <li class="page-item" [ngClass]="{ 'disabled': page === 1 }">

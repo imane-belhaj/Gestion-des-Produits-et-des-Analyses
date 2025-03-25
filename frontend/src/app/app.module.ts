@@ -12,6 +12,8 @@ import { AnalysesComponent } from './analyses/analyses.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { ProfileComponent } from './profile/profile.component';
+import { LigneControleComponent } from './ligne-controle/ligne-controle.component';
+import { PlanControlesComponent } from './plan-controles/plan-controles.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -23,7 +25,9 @@ import { ProfileComponent } from './profile/profile.component';
     NavbarComponent,
     ProduitsComponent,
     HomeComponent,
-    ProfileComponent
+    ProfileComponent,
+    LigneControleComponent,
+    PlanControlesComponent
 
   ],
   imports: [

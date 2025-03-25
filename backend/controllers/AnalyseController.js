@@ -1,16 +1,17 @@
 const db = require('../config/dbConfig');
 const User = require('../models/user');
 const Analyse = require('../models/analyseModel');
+const Unit = require('../models/unitModel');
 
 const analysesController = {
     getAllAnalyses:async (req,res) => {
         try {
             const analyses = await Analyse.findAll({
                 where: {user_id: req.user.userId },
-                include: [{
-                    model:User,
-                    attributes: ['firstname', 'lastname'],
-                }]
+                include: [
+                    {model:User, attributes: ['firstname', 'lastname'],},
+                    {model: Unit, attributes: ['nom', 'symbole']}
+                ]
             });
 
             const result = analyses.map(analyse => ({
@@ -19,6 +20,7 @@ const analysesController = {
                 valeur_max: analyse.valeur_max,
                 valeur_min: analyse.valeur_min,
                 created_by: `${analyse.User.firstname} ${analyse.User.lastname}`,
+                unit: analyse.Unit ? `${analyse.Unit.nom} (${analyse.Unit.symbole})` : null,
             }));
 
             res.json(result);
@@ -53,13 +55,35 @@ const analysesController = {
     },
 
     createAnalyse: async (req, res) => {
-        const {nom_analyse,valeur_max,valeur_min} = req.body;
+        console.log("Received data:", req.body);
+        const {nom_analyse,valeur_max,valeur_min,unit_id, unit_name, unit_symbol} = req.body;
         const userId = req.user.userId;
         console.log("userId from request :",userId);
+        console.log("Unit ID from request:", unit_id);
         if (!userId) {
             return res.status(401).json({error: 'userId is missing'});
         }
+
         try {
+
+            let unitIdToUse = unit_id;
+            if (!unit_id && unit_name && unit_symbol) {
+                let existingUnit = await Unit.findOne({ where: { nom: unit_name } });
+
+                if (!existingUnit) {
+                    const newUnit = await Unit.create({ nom: unit_name, symbole: unit_symbol });
+                    unitIdToUse = newUnit.id;
+                } else {
+                    unitIdToUse = existingUnit.id;
+                }
+            }
+
+
+
+            if (!unitIdToUse) {
+                return res.status(400).json({ error: 'Unit information is missing' });
+            }
+
             const existingAnalyse = await Analyse.findOne({where: {nom_analyse}});
             if (existingAnalyse) {
                 return res.status(400).json({error: 'Analyse already exists'});
@@ -69,9 +93,14 @@ const analysesController = {
              valeur_max,
              valeur_min,
              user_id: userId,
+             date_creation: new Date(),
+             date_modification: new Date(),
+             unit_id: unitIdToUse,
+
             });
             res.status(200).json({message:'Analsye created successfully',analyse});
         }catch(err) {
+            console.error("Error creating Analyse:", err);
             res.status(500).json({error: 'Failed to create Analyse',details: err});
         }
     },

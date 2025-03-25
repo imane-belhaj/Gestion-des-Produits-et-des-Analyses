@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/user');
 function authenticate(req, res, next) {
     const token = req.headers['authorization']?.split(' ')[1];
     if (!token) {
@@ -9,7 +9,7 @@ function authenticate(req, res, next) {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = { userId: decoded.userId, email: decoded.email };
-        console.log("Decoded user:", decoded);
+        //console.log("Decoded user:", decoded);
         next();
     } catch (err) {
         console.error("Invalid token:", err);
